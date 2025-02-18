@@ -9,43 +9,39 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @Data
 @Entity
 @Table(name = "users")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
-    @NotBlank(message = "name is required")
+    @NotBlank(message = "Name is required")
     private String name;
-    
-    
+
     @Column(unique = true)
-    @NotBlank(message = "email is required")
+    @NotBlank(message = "Email is required")
     private String email;
 
-    @NotBlank(message = "password num is required")
+    @NotBlank(message = "Password number is required")
     private String password;
 
     @Column(name = "phone_number")
-    @NotBlank(message = "phone num is required")
-    private String phoneNumber;
+    @NotBlank(message = "Phone number is required")
+    private  String phoneNumber;
+
     private UserRole role;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<OrderItem> orderItemList;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Order> orderItemList;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
     private Address address;
 
     @Column(name = "created_at")
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private final LocalDateTime createdAt = LocalDateTime.now();
 }

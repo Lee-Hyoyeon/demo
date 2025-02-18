@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class AuthUset implements UserDetails{
+public class AuthUser implements UserDetails{
 
   private User user;
   
